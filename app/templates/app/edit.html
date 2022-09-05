@@ -1,3 +1,6 @@
+{% extends 'app/base.html' %}
+{% block content %}
+
 <h1>Edit Todo</h1>
 
 <form method="POST" action="">
@@ -5,3 +8,5 @@
     {{ form.as_p }}
     <input type="submit" value="Submit"/>
 </form>
+
+{% endblock content %}

@@ -1,26 +1,42 @@
-<h1>Todo</h1>
-<table>
-    <thead>
-    <tr>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Action</th>
-        <th>Action</th>
-        <th>Action</th>
+{% extends 'app/base.html' %}
 
-    </tr>
-    </thead>
+{% block content %}
 
-    <tbody>
-    <td><a href="{% url 'create' %}">Create</a></td>
-    {% for todo in todos %}
-    <tr>
-        <td>{{todo.title}}</td>
-        <td>{{todo.description}}</td>
-           <td><a href="{% url 'edit' todo.id %}">Edit</a></td>
-        <td><a href="{% url 'delete' todo.id %}">Delete</a></td>
-        <td></td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+            <div class="col-md-12">
+                <div class="card px-3">
+                    <div class="card-body">
+                        <h4 class="card-title"> <h3>Awesome Todo list</h3></h4>
+                        
+                        <div task-items-wrapper>
+                            {% for todo in todos %}
+                        
+                            <div class="task-wrapper">
+                                {% if todo.complete %}
+                                    <div class="task-title">
+                                        <div class="task-complete-icon"></div>
+                                        <i><s><a href="{% url 'edit' todo.id %}">{{ todo }}</a></s></i>
+                                    </div>
+                                    <a class="delete-link" href="{% url 'delete' todo.id %}">&#215;</a>
+                                    {% else %}
+                                    <div class="task-title">
+                                        <div class="task-incomplete-icon"></div>
+                                        <a href="{% url 'edit' todo.id %}">{{ todo }}</a>
+                                    </div>
+                                    <a class="delete-link" href="{% url 'delete' todo.id %}">&#215;</a>
+                                {% endif %}
+                                
+                            </div>
+                        
+                            {% empty %}
+                            <h3>No of items in list</h3>
+                            {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

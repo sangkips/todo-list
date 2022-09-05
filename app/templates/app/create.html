@@ -1,4 +1,6 @@
-
+{% extends 'app/base.html' %}
+{% block content %}
+<div class="card-body">
 <h1>Create Todos</h1>
 
 <form method="POST" action="">
@@ -6,4 +8,8 @@
     {{ form.as_p}}
     <input type="submit" value="Submit">
 </form>
+</div>
+
+
+{% endblock content %}
 

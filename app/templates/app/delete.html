@@ -1,7 +1,10 @@
-
+{% extends 'app/base.html' %}
+{% block content %}
 <form method="POST">
     {% csrf_token %}
     <p>Are you sure you want to delete {{todo}}?</p>
     <a href="{% url 'home' %}">Go back</a>
     <input type="submit" value="Delete" />
 </form>
+
+{% endblock content %}
