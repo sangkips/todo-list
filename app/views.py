@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 from . import forms
 from .models import Todo
@@ -12,22 +12,22 @@ def loginView(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        #form = LoginForm(request.POST)
-        #if form.is_valid():
         user = authenticate(
             username=username,
             password=password)
         if user is not None:
             login(request, user)
-            message = f'Hello {user.username}! You have been logged in'
             return redirect('home')
-        else:
-            message = f'Username or Password is incorrect'
     context = {
         'form': form,
         'message': message
     }
     return render(request, 'app/login.html', context)
+
+
+def logoutView(request):
+    logout(request)
+    return redirect('login')
 
 
 def index(request):

@@ -12,7 +12,7 @@
                         </div>
                         {% if request.user.is_authenticated %}
                             <h5>Welcome {{request.user}}</h5>
-                            <a href="">logout</a>
+                            <a href="{% url 'logout' %}">logout</a>
                         {% else %}
                             <a href="{% url 'login' %}">Login</a>
                         {% endif %}
