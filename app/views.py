@@ -1,6 +1,33 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+
+from . import forms
 from .models import Todo
-from .forms import TodoForm
+from .forms import TodoForm, LoginForm
+
+
+def loginView(request):
+    form = LoginForm()
+    message = ''
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        #form = LoginForm(request.POST)
+        #if form.is_valid():
+        user = authenticate(
+            username=username,
+            password=password)
+        if user is not None:
+            login(request, user)
+            message = f'Hello {user.username}! You have been logged in'
+            return redirect('home')
+        else:
+            message = f'Username or Password is incorrect'
+    context = {
+        'form': form,
+        'message': message
+    }
+    return render(request, 'app/login.html', context)
 
 
 def index(request):

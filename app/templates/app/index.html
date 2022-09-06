@@ -7,15 +7,27 @@
         <div class="row container d-flex justify-content-center">
             <div class="col-md-12">
                 <div class="card px-3">
+                    <div class="task-header">
+                        <div><h3>Welcome to my todolist</h3>
+                        </div>
+                        {% if request.user.is_authenticated %}
+                            <h5>Welcome {{request.user}}</h5>
+                            <a href="">logout</a>
+                        {% else %}
+                            <a href="{% url 'login' %}">Login</a>
+                        {% endif %}
+
+                    </div>
+                    
+                    <hr>
                     <div class="card-body">
-                        <h4 class="card-title"> <h3>Awesome Todo list</h3></h4>
-                        
-                        <div task-items-wrapper>
+                        <h4 class="card-title"> <h3>Todo list</h3></h4>
+                        <div class="task-items-wrapper">
                             {% for todo in todos %}
-                        
                             <div class="task-wrapper">
-                                {% if todo.complete %}
+                                 {% if todo.complete == True %}
                                     <div class="task-title">
+                                       
                                         <div class="task-complete-icon"></div>
                                         <i><s><a href="{% url 'edit' todo.id %}">{{ todo }}</a></s></i>
                                     </div>
