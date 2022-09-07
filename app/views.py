@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 
 from . import forms
 from .models import Todo
-from .forms import TodoForm, LoginForm
+from .forms import TodoForm, LoginForm, CreateFormUser
 
 
 def loginView(request):
@@ -39,6 +40,20 @@ def index(request):
     return render(request, 'app/index.html', context)
 
 
+def registerView(request):
+    form = CreateFormUser
+
+    if request.method == 'POST':
+        form = CreateFormUser(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    context = {
+        'form': form
+    }
+    return render(request, 'app/register.html', context)
+
+
 @login_required(login_url='login')
 def createTodo(request):
     form = TodoForm()
@@ -52,6 +67,7 @@ def createTodo(request):
         'form': form
     }
     return render(request, 'app/create.html', context)
+
 
 @login_required(login_url='login')
 def editTodo(request, pk):
@@ -67,6 +83,7 @@ def editTodo(request, pk):
         'form': form
     }
     return render(request, 'app/edit.html', context)
+
 
 @login_required(login_url='login')
 def deleteTodo(request, pk):
