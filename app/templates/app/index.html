@@ -3,52 +3,54 @@
 {% block content %}
 
 <div class="page-content page-container" id="page-content">
+
     <div class="padding">
         <div class="row container d-flex justify-content-center">
             <div class="col-md-12">
                 <div class="card px-3">
-                    <div class="task-header">
-                        <div><h3>Welcome to my todolist</h3>
+                    <nav class="navbar bg-white">
+                        <div class="container-fluid">
+                            <span class="navbar-brand mb-0 h1">Todo List</span>
                         </div>
                         {% if request.user.is_authenticated %}
-                            <h5>Welcome {{request.user}}</h5>
-                            <a href="{% url 'logout' %}">logout</a>
+                        {{request.user}}
+                        <a href="{% url 'logout' %}">logout</a>
                         {% else %}
-                            <a href="{% url 'login' %}">Login</a>
+                        <a href="{% url 'login' %}">Login</a>
                         {% endif %}
-
+                    </nav>
+                    <div style="text-align: right; padding-bottom: 10px; line-height: 1em;">
+                        <h3><a style="text-decoration: none; color: #e53935;" href="{% url 'create' %}">&#43;</a> </h3>
                     </div>
-                    
-                    <hr>
-                    <div class="card-body">
-                        <h4 class="card-title"> <h3>Todo list</h3></h4>
-                        <div class="task-items-wrapper">
-                            {% for todo in todos %}
-                            <div class="task-wrapper">
-                                 {% if todo.complete == True %}
-                                    <div class="task-title">
-                                       
-                                        <div class="task-complete-icon"></div>
-                                        <i><s><a href="{% url 'edit' todo.id %}">{{ todo }}</a></s></i>
-                                    </div>
-                                    <a class="delete-link" href="{% url 'delete' todo.id %}">&#215;</a>
-                                    {% else %}
-                                    <div class="task-title">
-                                        <div class="task-incomplete-icon"></div>
-                                        <a href="{% url 'edit' todo.id %}">{{ todo }}</a>
-                                    </div>
-                                    <a class="delete-link" href="{% url 'delete' todo.id %}">&#215;</a>
+                    <div id="tasklist" class="task-items-wrapper">
+                        {% for todo in todos %}
+                        <div class="task-wrapper" >
+                            <div class="task-title">
+                                {% if todo.complete %}
+                                <div class="task-complete-icon"></div>
+                                <i><s><a href="{% url 'edit' todo.id %}">{{todo}}</a></s></i>
+                                {% else %}
+                                <div class="task-incomplete-icon"></div>
+                                <a href="{% url 'edit' todo.id %}">{{todo}}</a>
                                 {% endif %}
-                                
                             </div>
-                        
-                            {% empty %}
-                            <h3>No of items in list</h3>
-                            {% endfor %}
+                            <div class="task-controls">
+                                <a class="delete-link" href="{% url 'delete' todo.id %}">&#215;</a>
+                                <span class="handle">&nbsp;&#10247;</span>
+                            </div>
+                        </div>
+
+                        {% empty %}
+                        <div style="text-align: center; padding-bottom: 10px; line-height: 1em;">
+                            <h3>No new tasks.</h3>
+                            <h5><a style="text-decoration: none; color: #e53935;" href="{% url 'create' %}">Add new task</a> </h5>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock content %}
